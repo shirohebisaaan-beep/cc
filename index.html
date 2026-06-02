@@ -5,12 +5,340 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>农产品直播实训 - 团队分工填写卡 | 双模块岗位制</title>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            background: #eef4e6;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 30px 20px;
+            color: #1e2f1c;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        /* 全局卡片风格 */
+        .team-card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 32, 0, 0.2);
+            margin-bottom: 40px;
+            padding: 24px 28px 32px 28px;
+            transition: all 0.2s;
+            border: 1px solid #d4e2ca;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            border-bottom: 3px solid #4c9f38;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2b6e1f, #5fb045);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .badge {
+            background: #eef2e8;
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #2d5720;
+            white-space: nowrap;
+        }
+
+        .group-info {
+            background: #f9fbf5;
+            padding: 16px 20px;
+            border-radius: 24px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: flex-end;
+            border: 1px solid #dde9d4;
+        }
+
+        .info-item {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #2f5e27;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .info-item input, .info-item textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 20px;
+            border: 1.5px solid #cbdcc0;
+            background: white;
+            font-size: 1rem;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .info-item input:focus, .info-item textarea:focus {
+            outline: none;
+            border-color: #4c9f38;
+            box-shadow: 0 0 0 3px rgba(76, 159, 56, 0.2);
+        }
+
+        .logo-upload-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo-preview {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            object-fit: cover;
+            background: #f0f4ea;
+            border: 2px dashed #bdd8a8;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .upload-btn {
+            background: #eaf3e4;
+            border: 1px solid #9bc07c;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2a5e1e;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .upload-btn:hover { background: #d9e8d0; transform: translateY(-2px); }
+
+        .remove-logo {
+            background: none;
+            border: none;
+            color: #b87333;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 6px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .remove-logo:hover { color: #d9534f; transform: scale(1.2); }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 24px;
+            border: 1px solid #e2ecd9;
+        }
+
+        .duty-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 680px;
+        }
+
+        .duty-table th {
+            background: #eaf3e4;
+            color: #1c4413;
+            padding: 14px 10px;
+            font-weight: 700;
+            border-bottom: 2px solid #c0dbb2;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .duty-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #e4efdd;
+            text-align: center;
+            vertical-align: middle;
+            background-color: white;
+            transition: background-color 0.1s ease;
+        }
+
+        .duty-table tbody tr:hover td { background-color: #fafaf7; }
+
+        .duty-table input, .duty-table textarea {
+            width: 100%;
+            border: 1px solid #d0e0c6;
+            border-radius: 16px;
+            padding: 8px 8px;
+            font-size: 0.85rem;
+            text-align: center;
+            background: #fefef7;
+            transition: 0.1s;
+            font-family: inherit;
+            resize: none;
+        }
+
+        .duty-table input:focus, .duty-table textarea:focus {
+            border-color: #4c9f38;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 159, 56, 0.15);
+        }
+
+        .check-symbol {
+            font-size: 1.4rem;
+            cursor: pointer;
+            user-select: none;
+            color: #8fbc7a;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .check-symbol:hover { transform: scale(1.1); }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 26px;
+            border-radius: 48px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: #367c2b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2a6221;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 98, 33, 0.25);
+        }
+
+        .btn-outline {
+            border: 1.5px solid #8bc06e;
+            background: white;
+            color: #2a5e1e;
+        }
+
+        .btn-outline:hover { background: #f0f7eb; }
+
+        .signature-area {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px dashed #cde2c0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-size: 0.85rem;
+            color: #476b3a;
+        }
+
+        .signature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .signature-item input {
+            background: #fafaf5;
+            border: 1px solid #dde9d4;
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .signature-item input:focus {
+            border-color: #4c9f38;
+            box-shadow: 0 0 0 2px rgba(76, 159, 56, 0.15);
+        }
+
+        .footnote {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #6d8f5e;
+        }
+
+        @media (max-width: 1024px) {
+            .team-card { padding: 20px 24px 28px; }
+            .card-header h2 { font-size: 1.6rem; }
+            .group-info { gap: 16px; }
+            .info-item { min-width: 160px; }
+        }
+
+        @media (max-width: 750px) {
+            body { padding: 16px 12px; }
+            .team-card { padding: 16px 14px 20px; border-radius: 20px; margin-bottom: 24px; }
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .card-header h2 { font-size: 1.3rem; margin-bottom: 8px; }
+            .group-info { gap: 12px; padding: 12px 16px; flex-direction: column; }
+            .info-item { min-width: 100%; }
+            .logo-upload-area { flex-direction: column; align-items: flex-start; }
+            .duty-table th, .duty-table td { padding: 8px 4px; font-size: 0.8rem; }
+            .logo-preview { width: 55px; height: 55px; }
+            .action-buttons { flex-direction: column; gap: 12px; }
+            .btn { width: 100%; padding: 12px 20px; }
+            .signature-area { flex-direction: column; gap: 12px; }
+            .signature-item { flex-direction: column; align-items: flex-start; min-width: 100%; }
+            .signature-item input { width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .team-card { padding: 12px 10px 16px; border-radius: 16px; }
+            .card-header h2 { font-size: 1.1rem; }
+            .badge { font-size: 0.7rem; padding: 4px 10px; }
+            .duty-table { font-size: 0.75rem; }
+        }
+    </style>
 </head>
 <body>
 <div class="container" id="captureArea">
     <!-- 直播自营组 -->
-    <div class="team-card" id="liveTeamCard">
+    <div class="team-card">
         <div class="card-header">
             <h2>🎥 直播自营组 · 企业号轮岗</h2>
             <div class="badge">固定6岗 | 全流程实战</div>
@@ -18,93 +346,80 @@
         <div class="group-info">
             <div class="info-item">
                 <label>📌 小组编号</label>
-                <input type="text" id="liveGroupId" placeholder="例：第1组 / 先锋助农组">
+                <input type="text" data-field="liveGroupId" placeholder="例：第1组 / 先锋助农组">
             </div>
             <div class="info-item">
                 <label>🏷️ 组名</label>
-                <input type="text" id="liveGroupName" placeholder="如：沃野乡播组">
+                <input type="text" data-field="liveGroupName" placeholder="如：沃野乡播组">
             </div>
             <div class="info-item">
                 <label>🎤 口号</label>
-                <input type="text" id="liveSlogan" placeholder="助农新势力，直播创未来">
+                <input type="text" data-field="liveSlogan" placeholder="助农新势力，直播创未来">
             </div>
             <div class="info-item">
                 <label>🖼️ 小组团队LOGO图</label>
-                <div class="logo-upload-area" id="liveLogoArea">
-                    <img class="logo-preview" id="liveLogoPreview" 
-                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Crect width='70' height='70' fill='%23eaf3e4'/%3E%3Ctext x='35' y='45' font-size='12' text-anchor='middle' fill='%236b8c5c'%3E暂无LOGO%3C/text%3E%3C/svg%3E" 
-                         alt="小组LOGO">
-                    <input type="file" id="liveLogoInput" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none">
-                    <button type="button" class="upload-btn" id="liveUploadBtn">📤 上传图片</button>
-                    <button type="button" class="remove-logo" id="liveRemoveLogo" title="移除LOGO">✖️</button>
+                <div class="logo-upload-area">
+                    <img class="logo-preview" data-logo="live" 
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Crect width='70' height='70' fill='%23eaf3e4'/%3E%3Ctext x='35' y='45' font-size='12' text-anchor='middle' fill='%236b8c5c'%3E暂无LOGO%3C/text%3E%3C/svg%3E" alt="小组LOGO">
+                    <input type="file" data-input="liveLogoInput" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none">
+                    <button type="button" class="upload-btn" data-upload="live">📤 上传图片</button>
+                    <button type="button" class="remove-logo" data-remove="live" title="移除LOGO">✖️</button>
                 </div>
             </div>
         </div>
         <div class="table-wrapper">
-            <table class="duty-table" id="liveTeamTable">
+            <table class="duty-table" data-table="live">
                 <thead>
-                    <tr>
-                        <th>岗位编号</th>
-                        <th>岗位名称</th>
-                        <th>姓名</th>
-                        <th>学号</th>
-                        <th>个人职责简述</th>
-                        <th>当堂产出</th>
-                        <th>组长确认</th>
-                    </tr>
+                    <tr><th>岗位编号</th><th>岗位名称</th><th>姓名</th><th>学号</th><th>个人职责简述</th><th>当堂产出</th><th>组长确认</th></tr>
                 </thead>
-                <tbody id="liveTeamTableBody">
-                    <!-- 动态生成 -->
+                <tbody>
+                    <tr><td>1</td><td>直播组长/统筹运营</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>直播执行清单、数据记录表、复盘报告</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>2</td><td>主播（主出镜）</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>直播回放片段（主播视角）</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>3</td><td>助播/副主播</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>直播回放片段（助播视角）</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>4</td><td>场控/中控</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>后台操作录屏、实时数据截图</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>5</td><td>运营/选品师</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>选品排品表、用户问题记录表</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>6</td><td>拍摄/场务</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="简述职责" style="resize:none"></textarea></td><td>设备调试清单、场景布置照片</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
                 </tbody>
             </table>
         </div>
         <div class="signature-area">
             <div class="signature-item">
                 <strong>组长签字：</strong>
-                <input type="text" id="liveLeaderSign" placeholder="组长姓名" style="width:140px;">
+                <input type="text" data-field="liveLeaderSign" placeholder="组长姓名" style="width:140px;">
                 &nbsp; 日期：
-                <input type="text" id="liveDate" placeholder="2026年 月 日" style="width:130px;">
+                <input type="text" data-field="liveDate" placeholder="2026年 月 日" style="width:130px;">
             </div>
-            <div class="signature-item">
-                <span>✅ 小组承诺：遵守企业号规范，协作完成直播全流程</span>
-            </div>
+            <div class="signature-item"><span>✅ 小组承诺：遵守企业号规范，协作完成直播全流程</span></div>
         </div>
     </div>
 
     <!-- 短视频带货模块 -->
-    <div class="team-card" id="shortVideoCard">
+    <div class="team-card">
         <div class="card-header">
-            <h2>📱 短视���带货模块 · 农产品视频带货</h2>
+            <h2>📱 短视频带货模块 · 农产品视频带货</h2>
             <div class="badge">6人全能编队 | 多品轮换拍摄视频挂车</div>
         </div>
         <div class="table-wrapper">
-            <table class="duty-table" id="shortVideoTable">
-                <thead>
-                    <tr>
-                        <th>岗位编号</th>
-                        <th>岗位名称</th>
-                        <th>姓名</th>
-                        <th>学号</th>
-                        <th>个人职责简述</th>
-                        <th>当堂产出</th>
-                        <th>组长确认</th>
-                    </tr>
-                </thead>
-                <tbody id="shortVideoTableBody">
-                    <!-- 动态生成 -->
+            <table class="duty-table" data-table="video">
+                <thead><tr><th>岗位编号</th><th>岗位名称</th><th>姓名</th><th>学号</th><th>个人职责简述</th><th>当堂产出</th><th>组长确认</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>项目组长/统筹策划</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="统筹全组进度、合规审核" style="resize:none"></textarea></td><td>选题确认表、进度统筹</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>2</td><td>文案脚本策划师</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="挖掘卖点，撰写脚本" style="resize:none"></textarea></td><td>短视频带货脚本1份</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>3</td><td>视频拍摄师</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="布光构图、实拍素材" style="resize:none"></textarea></td><td>实拍素材库、原片素材</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>4</td><td>出镜主播（达人）</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="真人出镜口播演绎" style="resize:none"></textarea></td><td>出镜成片素材</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>5</td><td>后期剪辑师</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="剪辑调色成片" style="resize:none"></textarea></td><td>最终短视频成片1条</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
+                    <tr><td>6</td><td>运营发布/挂车合规师</td><td><input type="text" placeholder="姓名"></td><td><input type="text" placeholder="学号"></td><td><textarea rows="1" placeholder="发布挂车、合规审查" style="resize:none"></textarea></td><td>已发布挂车短视频+截图</td><td class="check-cell"><span class="check-symbol">☐</span></td></tr>
                 </tbody>
             </table>
         </div>
         <div class="signature-area">
             <div class="signature-item">
                 <strong>组长签字：</strong>
-                <input type="text" id="videoLeaderSign" placeholder="组长姓名" style="width:140px;">
+                <input type="text" data-field="videoLeaderSign" placeholder="组长姓名" style="width:140px;">
                 &nbsp; 日期：
-                <input type="text" id="videoDate" placeholder="2026年 月 日" style="width:130px;">
+                <input type="text" data-field="videoDate" placeholder="2026年 月 日" style="width:130px;">
             </div>
-            <div class="signature-item">
-                <span>🎯 承诺：全媒体合规带货，小组协作共创爆款</span>
-            </div>
+            <div class="signature-item"><span>🎯 承诺：全媒体合规带货，小组协作共创爆款</span></div>
         </div>
     </div>
 
@@ -115,6 +430,142 @@
     <div class="footnote">💡 提示：直播自营组可上传团队LOGO，短视频模块仅需填写岗位分工。点击保存图片即可生成完整分工表。</div>
 </div>
 
-<script src="app.js"></script>
+<script>
+    class FormManager {
+        constructor() {
+            this.defaultLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Crect width='70' height='70' fill='%23eaf3e4'/%3E%3Ctext x='35' y='45' font-size='12' text-anchor='middle' fill='%236b8c5c'%3E暂无LOGO%3C/text%3E%3C/svg%3E";
+            this.init();
+        }
+
+        init() {
+            this.setupLogoUpload();
+            this.setupCheckboxes();
+            this.setupAutoSync();
+            this.setupButtons();
+        }
+
+        setupLogoUpload() {
+            document.querySelectorAll('[data-upload]').forEach(btn => {
+                const type = btn.dataset.upload;
+                btn.addEventListener('click', () => {
+                    document.querySelector(`[data-input="${type}LogoInput"]`)?.click();
+                });
+            });
+
+            document.querySelectorAll('[data-input]').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            const type = input.dataset.input.replace('LogoInput', '');
+                            document.querySelector(`[data-logo="${type}"]`).src = ev.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (file) {
+                        alert('请上传图片格式文件 (jpg/png/webp)');
+                    }
+                });
+            });
+
+            document.querySelectorAll('[data-remove]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const type = btn.dataset.remove;
+                    document.querySelector(`[data-logo="${type}"]`).src = this.defaultLogo;
+                    document.querySelector(`[data-input="${type}LogoInput"]`).value = '';
+                });
+            });
+        }
+
+        setupCheckboxes() {
+            document.querySelectorAll('.check-symbol').forEach(symbol => {
+                symbol.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isChecked = symbol.innerText === '☐';
+                    symbol.innerText = isChecked ? '✓' : '☐';
+                    symbol.style.color = isChecked ? '#2a7a1a' : '#8fbc7a';
+                    symbol.style.fontWeight = isChecked ? 'bold' : 'normal';
+                });
+            });
+        }
+
+        setupAutoSync() {
+            const syncLeaderName = (tableSelector, signFieldSelector) => {
+                const table = document.querySelector(`[data-table="${tableSelector}"]`);
+                if (!table) return;
+                
+                const leaderInput = table.querySelector('tbody tr:first-child td:nth-child(3) input');
+                const signField = document.querySelector(`[data-field="${signFieldSelector}"]`);
+                
+                if (leaderInput && signField) {
+                    leaderInput.addEventListener('change', () => {
+                        if (!signField.value.trim()) signField.value = leaderInput.value;
+                    });
+                }
+            };
+
+            syncLeaderName('live', 'liveLeaderSign');
+            syncLeaderName('video', 'videoLeaderSign');
+        }
+
+        setupButtons() {
+            document.getElementById('resetBtn')?.addEventListener('click', () => {
+                if (confirm('重置所有小组分工信息？填写的数据将会清空。')) {
+                    this.resetAllForms();
+                }
+            });
+
+            document.getElementById('saveAsImageBtn')?.addEventListener('click', () => {
+                this.captureAndDownload();
+            });
+        }
+
+        resetAllForms() {
+            document.querySelectorAll('[data-field]').forEach(el => el.value = '');
+            document.querySelectorAll('.duty-table input, .duty-table textarea').forEach(el => el.value = '');
+            document.querySelectorAll('.check-symbol').forEach(sym => {
+                sym.innerText = '☐';
+                sym.style.color = '#8fbc7a';
+                sym.style.fontWeight = 'normal';
+            });
+            document.querySelectorAll('[data-logo]').forEach(img => img.src = this.defaultLogo);
+            document.querySelectorAll('[data-input]').forEach(input => input.value = '');
+        }
+
+        async captureAndDownload() {
+            const liveGroupName = document.querySelector('[data-field="liveGroupName"]')?.value.trim() || '';
+            
+            // 移除焦点
+            if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+                document.activeElement.blur();
+            }
+
+            try {
+                const canvas = await html2canvas(document.getElementById('captureArea'), {
+                    scale: 2.5,
+                    backgroundColor: '#eef4e6',
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: false
+                });
+
+                const link = document.createElement('a');
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const groupText = (liveGroupName || '直播组') + '_短视频组';
+                link.download = `农播实训_分工表_${groupText}_${timestamp}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                alert('✅ 分工表图片已生成并下载！请将图片提交至班级群/教师端。');
+            } catch (err) {
+                console.error(err);
+                alert('生成图片失败，可刷新页面重试。');
+            }
+        }
+    }
+
+    // 初始化
+    new FormManager();
+</script>
 </body>
 </html>
