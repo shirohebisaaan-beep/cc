@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>农产品直播实训 - 团队分工填写卡 | 双模块岗位制</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container" id="captureArea">
+    <!-- 直播自营组 -->
+    <div class="team-card" id="liveTeamCard">
+        <div class="card-header">
+            <h2>🎥 直播自营组 · 企业号轮岗</h2>
+            <div class="badge">固定6岗 | 全流程实战</div>
+        </div>
+        <div class="group-info">
+            <div class="info-item">
+                <label>📌 小组编号</label>
+                <input type="text" id="liveGroupId" placeholder="例：第1组 / 先锋助农组">
+            </div>
+            <div class="info-item">
+                <label>🏷️ 组名</label>
+                <input type="text" id="liveGroupName" placeholder="如：沃野乡播组">
+            </div>
+            <div class="info-item">
+                <label>🎤 口号</label>
+                <input type="text" id="liveSlogan" placeholder="助农新势力，直播创未来">
+            </div>
+            <div class="info-item">
+                <label>🖼️ 小组团队LOGO图</label>
+                <div class="logo-upload-area" id="liveLogoArea">
+                    <img class="logo-preview" id="liveLogoPreview" 
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70'%3E%3Crect width='70' height='70' fill='%23eaf3e4'/%3E%3Ctext x='35' y='45' font-size='12' text-anchor='middle' fill='%236b8c5c'%3E暂无LOGO%3C/text%3E%3C/svg%3E" 
+                         alt="小组LOGO">
+                    <input type="file" id="liveLogoInput" accept="image/jpeg,image/png,image/jpg,image/webp" style="display:none">
+                    <button type="button" class="upload-btn" id="liveUploadBtn">📤 上传图片</button>
+                    <button type="button" class="remove-logo" id="liveRemoveLogo" title="移除LOGO">✖️</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="duty-table" id="liveTeamTable">
+                <thead>
+                    <tr>
+                        <th>岗位编号</th>
+                        <th>岗位名称</th>
+                        <th>姓名</th>
+                        <th>学号</th>
+                        <th>个人职责简述</th>
+                        <th>当堂产出</th>
+                        <th>组长确认</th>
+                    </tr>
+                </thead>
+                <tbody id="liveTeamTableBody">
+                    <!-- 动态生成 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="signature-area">
+            <div class="signature-item">
+                <strong>组长签字：</strong>
+                <input type="text" id="liveLeaderSign" placeholder="组长姓名" style="width:140px;">
+                &nbsp; 日期：
+                <input type="text" id="liveDate" placeholder="2026年 月 日" style="width:130px;">
+            </div>
+            <div class="signature-item">
+                <span>✅ 小组承诺：遵守企业号规范，协作完成直播全流程</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 短视频带货模块 -->
+    <div class="team-card" id="shortVideoCard">
+        <div class="card-header">
+            <h2>📱 短视���带货模块 · 农产品视频带货</h2>
+            <div class="badge">6人全能编队 | 多品轮换拍摄视频挂车</div>
+        </div>
+        <div class="table-wrapper">
+            <table class="duty-table" id="shortVideoTable">
+                <thead>
+                    <tr>
+                        <th>岗位编号</th>
+                        <th>岗位名称</th>
+                        <th>姓名</th>
+                        <th>学号</th>
+                        <th>个人职责简述</th>
+                        <th>当堂产出</th>
+                        <th>组长确认</th>
+                    </tr>
+                </thead>
+                <tbody id="shortVideoTableBody">
+                    <!-- 动态生成 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="signature-area">
+            <div class="signature-item">
+                <strong>组长签字：</strong>
+                <input type="text" id="videoLeaderSign" placeholder="组长姓名" style="width:140px;">
+                &nbsp; 日期：
+                <input type="text" id="videoDate" placeholder="2026年 月 日" style="width:130px;">
+            </div>
+            <div class="signature-item">
+                <span>🎯 承诺：全媒体合规带货，小组协作共创爆款</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn btn-outline" id="resetBtn">重置所有表单</button>
+        <button class="btn btn-primary" id="saveAsImageBtn">📸 保存为图片 & 提交</button>
+    </div>
+    <div class="footnote">💡 提示：直播自营组可上传团队LOGO，短视频模块仅需填写岗位分工。点击保存图片即可生成完整分工表。</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
